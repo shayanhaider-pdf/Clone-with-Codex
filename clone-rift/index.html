@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b1020">
+  <meta name="description" content="Command your clones, automate rift hunts, and build an army across timelines.">
+  <title>Clone Rift</title>
+  <link rel="icon" href="./favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="./style.css">
+  <script defer src="./engine.js"></script>
+  <script defer src="./app.js"></script>
+</head>
+<body>
+  <svg class="icon-library" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <symbol id="i-mark" viewBox="0 0 24 24"><path d="m12 2 9 5v10l-9 5-9-5V7zM3 7l9 5 9-5m-9 5v10M7.5 4.5l9 5V15l-4.5 2.5"/></symbol>
+    <symbol id="i-hunt" viewBox="0 0 24 24"><path d="m3 3 14 14m-2 2 4-4m-2 2 4 4M21 3 7 17m2 2-4-4m2 2-4 4M3 3l1 6m-1-6 6 1m12-1-6 1m6-1-1 6"/></symbol>
+    <symbol id="i-lab" viewBox="0 0 24 24"><path d="M9 3h6m-5 0v7l-5 8a2 2 0 0 0 2 3h10a2 2 0 0 0 2-3l-5-8V3M8 14h8"/></symbol>
+    <symbol id="i-contracts" viewBox="0 0 24 24"><path d="M8 5H5v16h14V5h-3M9 3h6v4H9zm-1 9 1 1 2-2m2 2h3m-8 4 1 1 2-2m2 2h3"/></symbol>
+    <symbol id="i-archive" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-7M3 4v5h5m4-2v5l3 2"/></symbol>
+    <symbol id="i-settings" viewBox="0 0 24 24"><path d="m10 3-.7 2.5L7 7l-2.5-.7L3 9l1.8 1.8v2.4L3 15l1.5 2.7L7 17l2.3 1.5L10 21h4l.7-2.5L17 17l2.5.7L21 15l-1.8-1.8v-2.4L21 9l-1.5-2.7L17 7l-2.3-1.5L14 3z"/><circle cx="12" cy="12" r="3"/></symbol>
+    <symbol id="i-bolt" viewBox="0 0 24 24"><path d="m13 2-9 12h7l-1 8 10-12h-7z"/></symbol>
+    <symbol id="i-credit" viewBox="0 0 24 24"><path d="m12 2 8 5v10l-8 5-8-5V7zm0 5 4 5-4 5-4-5z"/></symbol>
+    <symbol id="i-users" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"/><path d="M3 20v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2m2-15a3 3 0 0 1 0 6m4 9v-2a4 4 0 0 0-3-4"/></symbol>
+    <symbol id="i-echo" viewBox="0 0 24 24"><path d="m12 2 9 10-9 10-9-10zm0 5 4 5-4 5-4-5z"/></symbol>
+    <symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3m-4 5v2"/></symbol>
+    <symbol id="i-chevron" viewBox="0 0 24 24"><path d="m9 5 7 7-7 7"/></symbol>
+    <symbol id="i-close" viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18"/></symbol>
+  </svg>
+  <a class="skip-link" href="#main">Skip to game</a>
+  <div class="shell">
+    <aside class="rail">
+      <a class="brand" href="#hunt" aria-label="Clone Rift home">
+        <span class="brand-mark"><svg class="icon"><use href="#i-mark"/></svg></span>
+        <span><strong>CLONE<span class="brand-space"> </span>RIFT</strong><small>HUNTER NETWORK</small></span>
+      </a>
+      <nav class="nav" aria-label="Game stations">
+        <span class="nav-caption">STATIONS</span>
+        <a href="#hunt" data-view="hunt"><svg class="icon"><use href="#i-hunt"/></svg><span>Hunt</span></a>
+        <a href="#lab" data-view="lab"><svg class="icon"><use href="#i-lab"/></svg><span>Clone Lab</span></a>
+        <a href="#contracts" data-view="contracts"><svg class="icon"><use href="#i-contracts"/></svg><span>Contracts</span><span class="nav-badge" id="contract-badge" hidden></span></a>
+        <a href="#archive" data-view="archive"><svg class="icon"><use href="#i-archive"/></svg><span>Archive</span></a>
+        <a href="#settings" data-view="settings"><svg class="icon"><use href="#i-settings"/></svg><span>Settings</span></a>
+      </nav>
+      <div class="rail-status">
+        <span class="status-dot"></span>
+        <div><strong>Local profile</strong><small id="save-status">Autosave active</small></div>
+      </div>
+    </aside>
+
+    <main id="main" tabindex="-1">
+      <header class="topbar">
+        <span class="eyebrow"><span class="status-dot"></span> OPERATIONS ONLINE</span>
+        <span class="run-label" id="run-label">RUN 01</span>
+      </header>
+      <div class="notice" id="notice" role="status" hidden></div>
+
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero-content">
+          <p class="eyebrow"><span class="hero-line"></span> COMMAND DECK</p>
+          <h1 id="hero-title">Clone<span> Rift</span></h1>
+          <p class="hero-description">Send your clones through the rift. Every hunt funds a stronger squad.</p>
+          <div class="hero-actions">
+            <button type="button" id="command" class="button primary"><svg class="icon"><use href="#i-bolt"/></svg><span id="command-label">Dispatch Strike</span></button>
+            <span class="command-help" id="command-help">Earn Credits instantly</span>
+          </div>
+        </div>
+        <span class="hero-coordinate" aria-hidden="true">BREACH 01 // WATCH SECTOR</span>
+      </section>
+
+      <dl class="stats" aria-label="Resources">
+        <div><dt><svg class="icon credit-icon"><use href="#i-credit"/></svg> Credits</dt><dd id="credits">25</dd></div>
+        <div><dt><svg class="icon income-icon"><use href="#i-bolt"/></svg> Idle income</dt><dd><span id="rate">0</span><span class="stat-unit"> / sec</span></dd></div>
+        <div><dt><svg class="icon clone-icon"><use href="#i-users"/></svg> Clones</dt><dd id="clone-count">1</dd></div>
+        <div><dt><svg class="icon echo-icon"><use href="#i-echo"/></svg> Echoes</dt><dd id="echoes">0</dd></div>
+      </dl>
+
+      <section id="view-hunt" class="view" aria-labelledby="hunt-heading">
+        <div class="section-heading">
+          <div><p class="eyebrow">FIELD OPERATIONS</p><h2 id="hunt-heading">Hunt sectors</h2><p id="hunt-hint">Launch a hunt in your first sector. Buy Sync to keep the squad hunting automatically.</p></div>
+          <div class="quantity-control" role="group" aria-label="Recruit quantity">
+            <span>RECRUIT</span>
+            <button type="button" data-quantity="1" aria-pressed="true">×1</button>
+            <button type="button" data-quantity="10" aria-pressed="false">×10</button>
+            <button type="button" data-quantity="max" aria-pressed="false">Max</button>
+          </div>
+        </div>
+        <div class="sector-list" id="sectors"></div>
+      </section>
+
+      <section id="view-lab" class="view" aria-labelledby="lab-heading" hidden>
+        <div class="section-heading"><div><p class="eyebrow">RESEARCH DIVISION</p><h2 id="lab-heading">Clone Lab</h2><p>Spend Credits on upgrades that apply to the whole clone network.</p></div></div>
+        <div class="upgrade-grid" id="upgrades"></div>
+      </section>
+
+      <section id="view-contracts" class="view" aria-labelledby="contracts-heading" hidden>
+        <div class="section-heading"><div><p class="eyebrow">HUNTER GUILD</p><h2 id="contracts-heading">Contracts</h2><p>Hit a target and claim the payout once per run.</p></div></div>
+        <div class="upgrade-grid" id="contracts"></div>
+      </section>
+
+      <section id="view-archive" class="view" aria-labelledby="archive-heading" hidden>
+        <div class="section-heading"><div><p class="eyebrow">TIMELINE RESEARCH</p><h2 id="archive-heading">The Archive</h2><p>Preserve your strongest memories and begin a new hunt.</p></div></div>
+        <article class="detail-card archive-card">
+          <span class="detail-icon"><svg class="icon"><use href="#i-echo"/></svg></span>
+          <div><h3>Record this timeline</h3><p>Archiving resets Credits, sectors, clones, Sync, research, and contracts. Echoes permanently boost hunt and strike payouts across future runs.</p></div>
+          <div class="archive-progress"><span id="archive-progress"></span><progress id="archive-meter" aria-label="Archive earnings progress" max="1" value="0"></progress></div>
+          <div class="archive-footer"><span id="archive-echoes"></span><button type="button" class="button primary" data-action="prepare-archive" id="archive-button">Archive timeline</button></div>
+        </article>
+      </section>
+
+      <section id="view-settings" class="view" aria-labelledby="settings-heading" hidden>
+        <div class="section-heading"><div><p class="eyebrow">LOCAL PROFILE</p><h2 id="settings-heading">Settings</h2><p>Progress is saved in this browser. Export a backup to carry it to another browser or device.</p></div></div>
+        <article class="detail-card settings-card">
+          <div><h3>Save data</h3><p>Importing a backup replaces the current profile after you confirm.</p></div>
+          <div class="settings-actions"><button type="button" class="button secondary" data-action="export">Export save</button><button type="button" class="button secondary" data-action="prepare-import">Import save</button><button type="button" class="button danger" data-action="prepare-reset">Reset profile</button></div>
+        </article>
+        <article class="detail-card settings-card">
+          <div><h3>Field manual</h3><p>Launch hunts to earn Credits. Recruit clones for larger payouts and Sync to repeat hunts automatically. Synced squads work while you’re away for up to eight hours.</p></div>
+          <div><h3>Controls</h3><p>Tab through stations and controls. Activate buttons with Enter or Space. Animations follow your device’s reduced motion preference.</p></div>
+        </article>
+      </section>
+
+      <footer class="footer"><span>CLONE RIFT</span><span>HUNTER NETWORK · v1.0</span></footer>
+    </main>
+  </div>
+
+  <div class="toast" id="toast" role="status"></div>
+  <dialog id="confirmation" aria-labelledby="dialog-title">
+    <form method="dialog">
+      <button class="icon-button dialog-close" type="submit" value="cancel" aria-label="Close" formnovalidate><svg class="icon"><use href="#i-close"/></svg></button>
+      <h2 id="dialog-title"></h2>
+      <p id="dialog-message"></p>
+      <div id="import-field" hidden>
+        <label for="import-file">Choose an exported save</label>
+        <input id="import-file" type="file" accept=".json,application/json">
+        <label for="import-text">Save JSON</label>
+        <textarea id="import-text" rows="5" spellcheck="false" maxlength="16384"></textarea>
+        <p class="input-error" id="import-error" role="alert"></p>
+      </div>
+      <div class="dialog-actions">
+        <button type="submit" value="cancel" class="button secondary" autofocus>Cancel</button>
+        <button type="submit" value="confirm" class="button primary" id="dialog-confirm">Confirm</button>
+      </div>
+    </form>
+  </dialog>
+  <noscript><p class="no-script">Enable JavaScript to play Clone Rift.</p></noscript>
+</body>
+</html>

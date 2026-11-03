@@ -1,0 +1,13 @@
+{
+  "name": "clone-rift",
+  "version": "1.0.0",
+  "private": true,
+  "type": "commonjs",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "start": "node serve.cjs",
+    "test": "node --test"
+  }
+}
